@@ -1,20 +1,29 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
-
 import os
+
+# 🔐 Load API key
 API_KEY = os.getenv("API_KEY")
+
+# 🔍 DEBUG (VERY IMPORTANT)
+print("🚀 API KEY LOADED:", API_KEY)
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route("/")
 def home():
     return "Backend is running!"
 
-# ✅ TEST
+
+# ✅ TEST ROUTE (CHECK API WORKING)
 @app.route("/test")
 def test():
+    if not API_KEY:
+        return "❌ API_KEY not found in environment"
+
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
     headers = {
@@ -35,6 +44,9 @@ def test():
 # ✅ CHAT
 @app.route("/chat", methods=["POST"])
 def chat():
+    if not API_KEY:
+        return jsonify({"answer": "❌ API key missing"})
+
     data = request.get_json()
     text = data.get("text", "")
     question = data.get("question", "")
@@ -63,23 +75,21 @@ Give a clear answer in 3-4 lines.
 """
 
         body = {
-            "contents": [
-                {"parts": [{"text": prompt}]}
-            ]
+            "contents": [{"parts": [{"text": prompt}]}]
         }
 
         response = requests.post(url, headers=headers, json=body)
         result = response.json()
 
-        # 🔥 Handle quota error
         if "error" in result:
-            return jsonify({"answer": "⚠️ AI limit reached. Try later."})
+            print("🔥 API ERROR:", result)
+            return jsonify({"answer": "⚠️ AI error / limit reached"})
 
-        answer = result.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "⚠️ No response")
+        answer = result["candidates"][0]["content"]["parts"][0]["text"]
 
     except Exception as e:
         print("🔥 ERROR:", e)
-        answer = "⚠️ AI error"
+        answer = "⚠️ Server error"
 
     return jsonify({"answer": answer})
 
@@ -87,9 +97,12 @@ Give a clear answer in 3-4 lines.
 # ✅ SUMMARIZER
 @app.route("/summarize", methods=["POST"])
 def summarize():
+    if not API_KEY:
+        return jsonify({"summary": "❌ API key missing"})
+
     data = request.get_json()
     text = data.get("text", "")
-    mode = data.get("mode", "short")   # ✅ FIXED
+    mode = data.get("mode", "short")
 
     if not text:
         return jsonify({"summary": "⚠️ No text provided"})
@@ -104,13 +117,10 @@ def summarize():
 
         if mode == "short":
             instruction = "Write a short summary in 1-2 paragraphs."
-
         elif mode == "detailed":
             instruction = "Write a detailed summary in 3-4 paragraphs."
-
         elif mode == "exam":
-            instruction = "Write exam revision notes in simple format."
-
+            instruction = "Write clean exam revision notes (simple format)."
         else:
             instruction = "Write a clear summary."
 
@@ -124,22 +134,21 @@ CONTENT:
 """
 
         body = {
-            "contents": [
-                {"parts": [{"text": prompt}]}
-            ]
+            "contents": [{"parts": [{"text": prompt}]}]
         }
 
         response = requests.post(url, headers=headers, json=body)
         result = response.json()
 
         if "error" in result:
-            return jsonify({"summary": "⚠️ AI limit reached. Try later."})
+            print("🔥 API ERROR:", result)
+            return jsonify({"summary": "⚠️ AI error / limit reached"})
 
-        summary = result.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "⚠️ No summary")
+        summary = result["candidates"][0]["content"]["parts"][0]["text"]
 
     except Exception as e:
         print("🔥 ERROR:", e)
-        summary = "⚠️ AI error"
+        summary = "⚠️ Server error"
 
     return jsonify({"summary": summary})
 
@@ -147,6 +156,9 @@ CONTENT:
 # ✅ PLANNER
 @app.route("/planner", methods=["POST"])
 def planner():
+    if not API_KEY:
+        return jsonify({"plan": "❌ API key missing"})
+
     data = request.get_json()
     topics = data.get("topics", [])
     time = data.get("time", "")
@@ -163,39 +175,36 @@ def planner():
             "x-goog-api-key": API_KEY
         }
 
-        topic_text = ""
-        for t in topics:
-            topic_text += f"{t['name']} ({t['knowledge']}%)\n"
+        topic_text = "\n".join([f"{t['name']} ({t['knowledge']}%)" for t in topics])
 
         prompt = f"""
-Create a simple and clean study plan.
-Don't use excess (*,#,!) symbols, use them only when purposely needed.
+Create a clean and simple study plan.
 
 Topics:
 {topic_text}
 
 Time: {time} {unit}
 
-Prioritize weak topics first.
+Focus more on weak topics.
+Avoid unnecessary symbols.
 """
 
         body = {
-            "contents": [
-                {"parts": [{"text": prompt}]}
-            ]
+            "contents": [{"parts": [{"text": prompt}]}]
         }
 
         response = requests.post(url, headers=headers, json=body)
         result = response.json()
 
         if "error" in result:
-            return jsonify({"plan": "⚠️ AI limit reached. Try later."})
+            print("🔥 API ERROR:", result)
+            return jsonify({"plan": "⚠️ AI error / limit reached"})
 
-        plan = result.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "⚠️ No plan")
+        plan = result["candidates"][0]["content"]["parts"][0]["text"]
 
     except Exception as e:
         print("🔥 ERROR:", e)
-        plan = "⚠️ AI error"
+        plan = "⚠️ Server error"
 
     return jsonify({"plan": plan})
 
