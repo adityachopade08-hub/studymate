@@ -1,0 +1,305 @@
+/* YOUR ORIGINAL CODE (UNCHANGED) */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+
+  background: linear-gradient(135deg, #dbeafe, #f0f9ff);
+  overflow-x: hidden;
+}
+
+h1 {
+  color: #333;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+textarea {
+  width: 90%;
+  height: 200px;
+  padding: 12px;
+
+  font-family: "Segoe UI", "Calibri", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+
+  border-radius: 10px;
+  border: 1px solid #ddd;
+
+  background: #f9fafb;
+  color: #333;
+
+  resize: vertical;
+}
+
+input {
+  padding: 8px;
+  margin: 5px;
+}
+
+/* NAV CONTAINER */
+.nav {
+  margin: 20px;
+}
+
+/* BUTTON NORMAL (LIGHT BLUE) */
+.nav button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  color: #0b3c5d;
+  background: linear-gradient(135deg, #cfe9ff, #e6f4ff);
+
+  transition: 0.3s;
+}
+
+/* HOVER (SLIGHTLY DARKER BLUE) */
+.nav button:not(.active):hover {
+  background: linear-gradient(135deg, #a8d8ff, #d6efff);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+/* ACTIVE (DARK BLUE WHEN CLICKED) */
+.nav .active {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  box-shadow: 0 0 15px rgba(30, 60, 114, 0.6);
+}
+
+.app {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+/* Smooth button transition */
+button {
+  transition: 0.3s;
+}
+
+/* Active tab style */
+.nav .active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Smooth card appearance */
+.card {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating icons */
+.background-icons {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.icon {
+  position: absolute;
+  font-size: 120px;
+  opacity: 0.4;
+
+  animation: float 6s infinite ease-in-out,
+             blurEffect 6s infinite ease-in-out;
+}
+
+.icon1 { top: 20px; left: 20px; }
+.icon2 { top: 20px; right: 20px; }
+.icon3 { bottom: 20px; left: 20px; }
+.icon4 { bottom: 20px; right: 20px; }
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.icon1 { color: #60a5fa; }
+.icon2 { color: #34d399; }
+.icon3 { color: #fbbf24; }
+.icon4 { color: #f472b6; }
+
+@keyframes blurEffect {
+  0% { filter: blur(3px); }
+  50% { filter: blur(0px); }
+  100% { filter: blur(3px); }
+}
+
+/* Upload Button */
+.upload-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+
+  color: white;
+  background: linear-gradient(135deg, #d946ef, #ec4899);
+
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.4);
+  transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+  background: linear-gradient(135deg, #c026d3, #db2777);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
+}
+
+/* Dropdown */
+.dropdown {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #f5d0fe, #fbcfe8);
+  color: #9d174d;
+
+  box-shadow: 0 0 8px rgba(236, 72, 153, 0.2);
+  transition: all 0.3s ease;
+}
+
+.dropdown:hover {
+  background: linear-gradient(135deg, #d946ef, #ec4899);
+  color: white;
+}
+
+.warning {
+  color: gray;
+  font-size: 13px;
+}
+
+/* ================================================= */
+/* ✅ ONLY NEW ADDITION → SUMMARY STYLING */
+/* ================================================= */
+
+.summary-text {
+  text-align: left;              /* ONLY summary left */
+  white-space: pre-line;
+
+  font-family: "Calibri", "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+
+  color: #1f2937;
+
+  margin-top: 10px;
+  padding: 12px;
+
+  border-left: 4px solid #ec4899;   /* subtle magenta accent */
+}
+
+/* ✅ FIX STUDY PLANNER INPUT SIZE */
+.topic-card input {
+  width: 60%;
+  padding: 10px;
+  font-size: 15px;
+}
+
+/* ✅ CENTER ALIGN AGAIN */
+.topic-card {
+  text-align: center;
+}
+
+/* ✅ FIX TOTAL TIME INPUT ALIGNMENT */
+input[type="number"] {
+  width: 60%;
+}
+
+/* Keep time + dropdown inline */
+.time-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* =============================== */
+/* CHAT WITH PDF INPUT FIX */
+/* =============================== */
+
+.chat-input {
+  width: 60%;              /* bigger width */
+  padding: 12px;
+
+  font-family: "Calibri", "Segoe UI", sans-serif;
+  font-size: 16px;         /* bigger text */
+
+  border-radius: 10px;
+  border: 1px solid #ccc;
+
+  background: #f9fafb;
+
+  transition: 0.3s;
+}
+
+/* Focus effect */
+.chat-input:focus {
+  outline: none;
+  border-color: #ec4899;
+  box-shadow: 0 0 8px rgba(236, 72, 153, 0.3);
+}
+
+.chat-input {
+  display: block;
+  margin: 10px auto;
+}
+
+.summary-text {
+  text-align: left;
+  font-family: "Calibri", "Segoe UI", sans-serif;
+  line-height: 1.7;
+  font-size: 15px;
+  color: #333;
+
+  margin-top: 10px;
+}
+
+.summary-text p {
+  margin-bottom: 10px;
+}
