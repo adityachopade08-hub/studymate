@@ -59,22 +59,27 @@ function ChatPDF() {
     }
 
     setLoading(true);
-    setAnswer("");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/chat", {
+      const response = await fetch("https://studymate-backend.onrender.com/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text, question }),
+        body: JSON.stringify({
+          text: text,
+          question: question,
+        }),
       });
 
       const data = await response.json();
-      setAnswer(data.answer || "⚠️ No response from AI");
+
+      console.log("CHAT RESPONSE:", data); // ✅ keep log INSIDE function
+
+      setAnswer(data.answer || "⚠️ No response");
 
     } catch (error) {
-      console.error("FETCH ERROR", error);
+      console.error(error);
       setAnswer("⚠️ Cannot connect to backend");
     }
 
@@ -121,10 +126,8 @@ function ChatPDF() {
         {loading ? "Thinking..." : "Ask"}
       </button>
 
-      {/* ⏳ LOADING */}
       {loading && <p>🤔 Thinking...</p>}
 
-      {/* ✅ ANSWER */}
       {answer && !loading && (
         <>
           <button onClick={downloadAnswer}>📄 Download Answer</button>

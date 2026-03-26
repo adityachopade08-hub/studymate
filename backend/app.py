@@ -169,6 +169,7 @@ def planner():
 
         prompt = f"""
 Create a simple and clean study plan.
+Don't use excess (*,#,!) symbols, use them only when purposely needed.
 
 Topics:
 {topic_text}
