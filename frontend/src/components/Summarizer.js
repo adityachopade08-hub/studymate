@@ -62,7 +62,7 @@ function Summarizer() {
     setSummary("");
 
     try {
-      const response = await fetch("https://studymate-backend.onrender.com/summarize", {
+      const response = await fetch("https://studymate-backend-rz3z.onrender.com/summarize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

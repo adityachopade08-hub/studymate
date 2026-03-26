@@ -10,7 +10,9 @@ API_KEY = os.getenv("API_KEY") or "YOUR_NEW_API_KEY"
 print("🚀 API KEY LOADED:", API_KEY)
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/*": {"origins": "https://studymate-wheat.vercel.app"}
+})
 
 
 @app.route("/")

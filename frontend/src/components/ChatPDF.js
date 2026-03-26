@@ -61,7 +61,7 @@ function ChatPDF() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://studymate-backend.onrender.com/chat", {
+      const response = await fetch("https://studymate-backend-rz3z.onrender.com/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

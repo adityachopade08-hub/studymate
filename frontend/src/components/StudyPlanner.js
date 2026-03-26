@@ -34,7 +34,7 @@ function StudyPlanner() {
     setPlan("");
 
     try {
-      const response = await fetch("https://studymate-backend.onrender.com/planner", {
+      const response = await fetch("https://studymate-backend-rz3z.onrender.com/planner", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
