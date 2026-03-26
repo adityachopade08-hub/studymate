@@ -4,7 +4,7 @@ import requests
 import os
 
 # 🔐 Load API key
-API_KEY = os.getenv("API_KEY")
+API_KEY = os.getenv("API_KEY") or "YOUR_NEW_API_KEY"
 
 # 🔍 DEBUG (VERY IMPORTANT)
 print("🚀 API KEY LOADED:", API_KEY)
